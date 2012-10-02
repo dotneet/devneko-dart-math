@@ -19,6 +19,15 @@ class PhysicalObject2D {
     position.y += speed.y * u;
   }
 
+  /**
+   * calculate gravity force.
+   */
+  double calcGravityForce(PhysicalObject2D obj) {
+    var r = position.getDistance(obj.position);
+    var mM = this.mass * obj.mass;
+    return GRAVITY_ACCELERATION * ( mM / (r * r) );
+  }
+
   /** 
    * return normal component of reaction
    */
