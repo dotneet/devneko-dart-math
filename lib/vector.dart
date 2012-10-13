@@ -6,15 +6,18 @@ import 'src/util.dart';
 
 class Vector {
   List<num> _elems;
+
   Vector(int d) {
     _elems = new List<num>(d);
   }
+
   Vector.zero(int d) {
     _elems = new List<num>(d);
     for ( var i = 0; i < d; i++ ) {
       _elems[i] = 0;
     }
   }
+
   factory Vector.fromElements(List<num> elems) {
     switch ( elems.length ) {
       case 2:
@@ -33,10 +36,20 @@ class Vector {
     _elems.forEach( (i) { s += i * i; } );
     return sqrt(s);
   }
+  num get norm() => this.length;
 
   num distance(Vector v) {
     var diff = v - this;
     return diff.length;
+  }
+
+  Vector normalize() {
+    var v = new List<num>();
+    var len = this.length;
+    _elems.forEach( (n) {
+      v.add( n / len );
+    } );
+    return vector(v);
   }
 
   num operator [] (int idx) {
@@ -47,14 +60,14 @@ class Vector {
     _elems[idx] = value;
   }
 
-  num operator * (Vector v) {
+  Vector operator + (Vector v) {
     assert( this._elems.length == v._elems.length );
-    var len = this._elems.length; 
-    var result = 0;
+    var len = this._elems.length;
+    var d = new List<num>(len);
     for ( var i = 0; i < len; i++ ) {
-      result += _elems[i] * v[i];
+      d[i] = this._elems[i] + v._elems[i];
     }
-    return result;
+    return new Vector.fromElements(d);
   }
 
   Vector operator - (Vector v) {
@@ -66,6 +79,16 @@ class Vector {
       d[i] = this._elems[i] - v._elems[i];
     }
     return new Vector.fromElements(d);
+  }
+
+  num operator * (Vector v) {
+    assert( this._elems.length == v._elems.length );
+    var len = this._elems.length; 
+    var result = 0;
+    for ( var i = 0; i < len; i++ ) {
+      result += _elems[i] * v[i];
+    }
+    return result;
   }
 
   String toString() {
@@ -121,3 +144,10 @@ class Vector3D extends Vector {
 Vector vector(List<num> elems) {
   return new Vector.fromElements(elems);
 }
+Vector vector2d(num x, num y) {
+  return new Vector2D(x,y);
+}
+Vector vector3d(num x, num y, num z) {
+  return new Vector3D(x,y,z);
+}
+
