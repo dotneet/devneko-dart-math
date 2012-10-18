@@ -113,5 +113,41 @@ class Matrix {
         [0, 0, 0, 1 ]
       ] );
   }
+
+  static Matrix lookAt(Vector3D eye, Vector3D target, Vector3D up ) {
+    Vector3D zaxis = (target - eye).normal();
+    Vector3D xaxis = (up.cross(zaxis)).normal();
+    Vector3D yaxis = zaxis.cross(xaxis);
+    Matrix m1 = new Matrix.fromLists(
+        [
+          [xaxis.x, yaxis.x, zaxis.x, 0 ],
+          [xaxis.y, yaxis.y, zaxis.y, 0 ],
+          [xaxis.z, yaxis.z, zaxis.z, 0 ],
+          [ 0, 0, 0, 1 ]
+        ] );
+    Matrix m2 = new Matrix.fromLists(
+        [
+          [ 1, 0, 0, 0],
+          [ 0, 1, 0, 0],
+          [ 0, 0, 1, 0],
+          [ -eye.x, -eye.y, -eye.z, 1 ]
+        ] );
+    return m1 * m2;
+  }
+
+  static Matrix projection(num near, num far, num fovHoriz, num fovVert) {
+    num w = 1/tan(fovHoriz*0.5);
+    num h = 1/tan(fovVert*0.5);
+    num q = far / (far - near);
+
+    return new Matrix.fromLists(
+        [
+          [ w, 0, 0, 0 ],
+          [ 0, h, 0, 0 ],
+          [ 0, 0, q, 0 ],
+          [ 0, 0, -q * near, 0 ]
+        ] );
+  }
+
 }
 
