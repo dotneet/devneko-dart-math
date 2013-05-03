@@ -31,7 +31,7 @@ class PhysicalObject2D {
   /** 
    * return normal component of reaction
    */
-  double get normalReaction() {
+  double get normalReaction {
     return mass * GRAVITY_ACCELERATION;
   }
 

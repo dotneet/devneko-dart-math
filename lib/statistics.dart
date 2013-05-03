@@ -12,7 +12,7 @@ num variance(List<num> list) {
   var avg = average(list);
   var s = 0;
   list.forEach( (n){
-    d = avg - n;
+    var d = avg - n;
     s += d * d;
   });
   return s;

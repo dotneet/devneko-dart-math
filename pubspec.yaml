@@ -1,7 +1,3 @@
 name: dn_math
-description: >
-  math library for dart language.
 dependencies:
-  unittest:
-    sdk: unittest
-		
+  unittest: any
